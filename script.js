@@ -8,6 +8,7 @@ const defaultWords = [
   { word: 'bhai', image: 'images/bhai.jpeg' },
   { word: 'chalo', image: 'images/chalo.jpg' },
   { word: 'baitho', image: 'images/baitho.jpg' },
+  { word: 'glass', image: 'images/glass.jpg' },
 ];
 
 function loadWords() {
