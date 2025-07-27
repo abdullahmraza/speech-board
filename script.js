@@ -3,7 +3,7 @@ const defaultWords = [
   { word: 'khana', image: 'images/khana.jpg' },
   { word: 'dedo', image: 'images/dedo.jpg' },
   { word: 'papa', image: 'images/papa.jpg' },
-  { word: 'mumma', image: 'images/mummy.jpeg' },
+  { word: 'mumma', image: 'images/mummy.jpg' },
   { word: 'dadi', image: 'images/dadi.jpg' },
   { word: 'bhai', image: 'images/bhai.jpeg' },
   { word: 'chalo', image: 'images/chalo.jpg' },
@@ -25,6 +25,7 @@ function renderBoard(words) {
   words.forEach(({ word, image }) => {
     const card = document.createElement('div');
     card.className = 'card';
+    card.title = word;
 
     const img = document.createElement('img');
     img.src = image;
@@ -36,53 +37,24 @@ function renderBoard(words) {
     card.appendChild(img);
     card.appendChild(p);
 
-    // On click, show popup and speak
-    card.addEventListener('click', () => {
-      showPopup(image, word);
-    });
+    card.addEventListener('click', () => speakWord(word));
 
     board.appendChild(card);
   });
 }
 
-function speak(text) {
+function speakWord(word) {
   if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'hi-IN';
-    speechSynthesis.cancel(); // Cancel ongoing speech
-    speechSynthesis.speak(utterance);
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'hi-IN'; // Hindi
+    window.speechSynthesis.speak(utterance);
   } else {
-    alert('Speech synthesis not supported');
+    alert('Sorry, your browser does not support text-to-speech.');
   }
 }
-
-function showPopup(imageSrc, word) {
-  const popup = document.getElementById('popup');
-  const popupImage = document.getElementById('popup-image');
-  const popupText = document.getElementById('popup-text');
-
-  popupImage.src = imageSrc;
-  popupText.textContent = word;
-
-  popup.style.display = 'flex';
-
-  speak(word);
-}
-
-function closePopup() {
-  document.getElementById('popup').style.display = 'none';
-}
-
-// Close popup on Esc key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closePopup();
-  }
-});
 
 function addWord(newWord) {
   let words = JSON.parse(localStorage.getItem('speechWords')) || [];
   words.push(newWord);
   localStorage.setItem('speechWords', JSON.stringify(words));
-  renderBoard(words); // Re-render after adding
 }
