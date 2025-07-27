@@ -23,12 +23,10 @@
   <!-- Load script -->
   <script src="script.js"></script>
   <script>
-    // Only run JS code after DOM is fully ready
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('goAdmin').addEventListener('click', () => {
         window.location.href = 'admin.html';
       });
-
       loadWords();
     });
   </script>
