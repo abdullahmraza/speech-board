@@ -25,7 +25,6 @@ function renderBoard(words) {
   words.forEach(({ word, image }) => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.title = word;
 
     const img = document.createElement('img');
     img.src = image;
@@ -37,32 +36,23 @@ function renderBoard(words) {
     card.appendChild(img);
     card.appendChild(p);
 
-    card.addEventListener('click', () => speakWord(word));
+    card.addEventListener('click', () => {
+      showPopup(image, word); // Show image + speak word
+    });
 
     board.appendChild(card);
   });
 }
 
-function speakWord(word) {
-  if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'hi-IN'; // Hindi
-    window.speechSynthesis.speak(utterance);
-  } else {
-    alert('Sorry, your browser does not support text-to-speech.');
-  }
-}
-
-function addWord(newWord) {
-  let words = JSON.parse(localStorage.getItem('speechWords')) || [];
-  words.push(newWord);
-  localStorage.setItem('speechWords', JSON.stringify(words));
-}
-
 function speak(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  speechSynthesis.cancel(); // stop any previous speech
-  speechSynthesis.speak(utterance);
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'hi-IN';
+    speechSynthesis.cancel(); // Stop previous
+    speechSynthesis.speak(utterance);
+  } else {
+    alert('Speech synthesis not supported');
+  }
 }
 
 function showPopup(imageSrc, word) {
@@ -82,16 +72,8 @@ function closePopup() {
   document.getElementById('popup').style.display = 'none';
 }
 
-// Dynamically generate cards (you probably already do this)
-items.forEach(item => {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `<img src="${item.image}" alt="${item.word}" /><p>${item.word}</p>`;
-  
-  card.addEventListener('click', () => {
-    showPopup(item.image, item.word);
-  });
-
-  document.querySelector('.grid').appendChild(card);
-});
-
+function addWord(newWord) {
+  let words = JSON.parse(localStorage.getItem('speechWords')) || [];
+  words.push(newWord);
+  localStorage.setItem('speechWords', JSON.stringify(words));
+}
