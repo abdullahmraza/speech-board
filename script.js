@@ -37,7 +37,7 @@ function renderBoard(words) {
     card.appendChild(img);
     card.appendChild(p);
 
-    card.addEventListener('click', () => speakWord(word));
+    card.addEventListener('click', () => showPopup(word, image));
 
     board.appendChild(card);
   });
