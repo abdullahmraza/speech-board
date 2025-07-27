@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Speech Board</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1>Speech Board</h1>
+<div id="board" class="grid"></div>
+<button id="goAdmin">Add New Word</button>
+
+<script src="script.js"></script>
+<script>
+  document.getElementById('goAdmin').addEventListener('click', () => {
+    window.location.href = 'admin.html';
+  });
+  loadWords();
+</script>
+</body>
+</html>
