@@ -37,28 +37,28 @@ function renderBoard(words) {
     card.appendChild(img);
     card.appendChild(p);
 
-    card.addEventListener('click', () => showPopup(word, image));
+    card.addEventListener('click', () => speakWord(word));
 
     board.appendChild(card);
   });
 }
 
 function speakWord(word) {
-  function showPopup(word, imageSrc) {
-  const popup = document.getElementById('popup');
-  const popupImage = document.getElementById('popup-image');
-  const popupText = document.getElementById('popup-text');
-
-  popupImage.src = imageSrc;
-  popupText.textContent = word;
-
-  popup.style.display = 'flex';
-
-  // Speak the word
-  speakWord(word);
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'hi-IN';
+    window.speechSynthesis.speak(utterance);
+  } else {
+    alert('Sorry, your browser does not support text-to-speech.');
+  }
 }
 
-function closePopup() {
-  const popup = document.getElementById('popup');
-  popup.style.display = 'none';
+function addWord(newWord) {
+  let words = JSON.parse(localStorage.getItem('speechWords')) || [];
+  words.push(newWord);
+  localStorage.setItem('speechWords', JSON.stringify(words));
 }
+
+window.onload = function () {
+  loadWords();
+};
