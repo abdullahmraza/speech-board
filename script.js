@@ -3,7 +3,7 @@ const defaultWords = [
   { word: 'khana', image: 'images/khana.jpg' },
   { word: 'dedo', image: 'images/dedo.jpg' },
   { word: 'papa', image: 'images/papa.jpg' },
-  { word: 'mumma', image: 'images/mummy.jpg' },
+  { word: 'mumma', image: 'images/mummy.jpeg' },
   { word: 'dadi', image: 'images/dadi.jpg' },
   { word: 'bhai', image: 'images/bhai.jpeg' },
   { word: 'chalo', image: 'images/chalo.jpg' },
