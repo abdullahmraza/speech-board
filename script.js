@@ -58,3 +58,40 @@ function addWord(newWord) {
   words.push(newWord);
   localStorage.setItem('speechWords', JSON.stringify(words));
 }
+
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  speechSynthesis.cancel(); // stop any previous speech
+  speechSynthesis.speak(utterance);
+}
+
+function showPopup(imageSrc, word) {
+  const popup = document.getElementById('popup');
+  const popupImage = document.getElementById('popup-image');
+  const popupText = document.getElementById('popup-text');
+
+  popupImage.src = imageSrc;
+  popupText.textContent = word;
+
+  popup.style.display = 'flex';
+
+  speak(word);
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+
+// Dynamically generate cards (you probably already do this)
+items.forEach(item => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<img src="${item.image}" alt="${item.word}" /><p>${item.word}</p>`;
+  
+  card.addEventListener('click', () => {
+    showPopup(item.image, item.word);
+  });
+
+  document.querySelector('.grid').appendChild(card);
+});
+
