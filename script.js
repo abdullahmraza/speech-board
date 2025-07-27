@@ -36,8 +36,9 @@ function renderBoard(words) {
     card.appendChild(img);
     card.appendChild(p);
 
+    // On click, show popup and speak
     card.addEventListener('click', () => {
-      showPopup(image, word); // Show image + speak word
+      showPopup(image, word);
     });
 
     board.appendChild(card);
@@ -48,7 +49,7 @@ function speak(text) {
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'hi-IN';
-    speechSynthesis.cancel(); // Stop previous
+    speechSynthesis.cancel(); // Cancel ongoing speech
     speechSynthesis.speak(utterance);
   } else {
     alert('Speech synthesis not supported');
@@ -72,8 +73,16 @@ function closePopup() {
   document.getElementById('popup').style.display = 'none';
 }
 
+// Close popup on Esc key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closePopup();
+  }
+});
+
 function addWord(newWord) {
   let words = JSON.parse(localStorage.getItem('speechWords')) || [];
   words.push(newWord);
   localStorage.setItem('speechWords', JSON.stringify(words));
+  renderBoard(words); // Re-render after adding
 }
