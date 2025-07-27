@@ -37,20 +37,34 @@ function renderBoard(words) {
     card.appendChild(img);
     card.appendChild(p);
 
-    card.addEventListener('click', () => speakWord(word));
+    card.addEventListener('click', () => speakWord(word, image));
 
     board.appendChild(card);
   });
 }
 
-function speakWord(word) {
+function speakWord(word, image) {
+  // ✅ Show popup
+  const popup = document.getElementById('popup');
+  const popupImage = document.getElementById('popup-image');
+  const popupText = document.getElementById('popup-text');
+
+  popupImage.src = image;
+  popupText.textContent = word;
+  popup.style.display = 'flex';
+
+  // ✅ Speak the word
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'hi-IN';
+    utterance.lang = 'hi-IN'; // Hindi
     window.speechSynthesis.speak(utterance);
   } else {
     alert('Sorry, your browser does not support text-to-speech.');
   }
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
 }
 
 function addWord(newWord) {
